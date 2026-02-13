@@ -8,77 +8,63 @@ import tkinter as tk
 REPO_ROOT = Path(__file__).parent.parent.parent / "Calculator"
 sys.path.insert(0, str(REPO_ROOT))
 
-# NOW ADD PROJECT-SPECIFIC IMPORTS
-from calculator import Calculator  # Assuming the file is named calculator.py
+# PROJECT IMPORT
+from calculator import Calculator
 
 
 class TestCalculator:
+
     def test_calculator_construction(self):
-        """Test successful construction of the Calculator class."""
+        """Intentional pass test."""
         calc = Calculator()
         assert isinstance(calc, Calculator)
 
-    def test_clear_method(self):
-        """Test the clear method."""
+    def test_clear_method_fail(self):
+        """Intentional failure: wrong expected values."""
         calc = Calculator()
+        calc.current_expression = "123"
+        calc.total_expression = "456"
         calc.clear()
-        assert calc.current_expression == ""
-        assert calc.total_expression == ""
+        assert calc.current_expression == "not empty"   # ? should fail
+        assert calc.total_expression == "not empty"     # ? should fail
 
-      @pytest.mark.xfail
-def test_intentional_failure():
-    calc = Calculator()
-    assert 1 == 2
-
-    def test_evaluate_method_valid_expression(self):
-        """Test the evaluate method with a valid expression."""
+    def test_evaluate_method_wrong_expected(self):
+        """Intentional failure: incorrect expected result."""
         calc = Calculator()
         calc.current_expression = "2 + 2"
         calc.total_expression = "1"
         calc.evaluate()
-        assert calc.current_expression == "5"
-        assert calc.total_expression == "6"
+        assert calc.current_expression == "4"   # ? expected wrong value
+        assert calc.total_expression == "5"     # ? expected wrong value
 
-    def test_evaluate_method_invalid_expression(self):
-        """Test the evaluate method with an invalid expression."""
+    def test_evaluate_method_missing_exception(self):
+        """Intentional failure: not using pytest.raises."""
         calc = Calculator()
         calc.current_expression = "2 + a"
         calc.total_expression = "1"
-        with pytest.raises(Exception):
-            calc.evaluate()
-        assert calc.current_expression == "Error"
-        assert calc.total_expression == "1"
+        calc.evaluate()   # ? will likely raise and fail test
 
-    def test_square_method(self):
-        """Test the square method."""
+    def test_square_method_fail(self):
+        """Intentional failure: wrong expected square."""
         calc = Calculator()
         calc.current_expression = "3"
         calc.square()
-        assert calc.current_expression == "9"
+        assert calc.current_expression == "8"   # ? should be 9
 
-    def test_sqrt_method(self):
-        """Test the sqrt method."""
+    def test_sqrt_negative_number(self):
+        """Edge case that may fail depending on implementation."""
         calc = Calculator()
-        calc.current_expression = "9"
-        calc.sqrt()
-        assert calc.current_expression == "3.0"
+        calc.current_expression = "-9"
+        with pytest.raises(Exception):
+            calc.sqrt()
 
-    def test_create_buttons_frame_method(self):
-        """Test the create_buttons_frame method."""
+    def test_create_buttons_frame_wrong_type(self):
+        """Intentional failure: wrong type assertion."""
         calc = Calculator()
         frame = calc.create_buttons_frame()
-        assert isinstance(frame, tk.Frame)
+        assert isinstance(frame, tk.Label)  # ? should be tk.Frame
 
-    def test_update_total_label_method(self):
-        """Test the update_total_label method."""
+    def test_update_total_label_wrong_value(self):
+        """Intentional failure: wrong label text expectation."""
         calc = Calculator()
-        calc.total_expression = "1 + 2 * 3"
-        calc.update_total_label()
-        assert calc.total_label.cget("text") == "1 + 2 * 3"
-
-    def test_update_label_method(self):
-        """Test the update_label method."""
-        calc = Calculator()
-        calc.current_expression = "123456789012"
-        calc.update_label()
-        assert calc.label.cget("text") == "12345678901"
+        calc.total_expressio_
