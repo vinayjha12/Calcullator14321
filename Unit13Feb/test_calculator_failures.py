@@ -2,13 +2,11 @@ import sys
 from pathlib import Path
 import pytest
 
-# Search upwards for calculator.py
-current = Path(__file__).resolve()
-for parent in current.parents:
-    if (parent / "calculator.py").exists():
-        sys.path.insert(0, str(parent))
-        break
+# Go up TWO levels to reach Calcullator14321 folder
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT))
 
+from calculator import Calculator
 from calculator import Calculator
 
 
