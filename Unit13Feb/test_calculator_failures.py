@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 import pytest
-import tkinter as tk
 
 # PATH SETUP
 REPO_ROOT = Path(__file__).parent.parent.parent / "Calculator"
@@ -13,71 +12,42 @@ from calculator import Calculator
 class TestCalculatorFailures:
 
     def test_always_fail(self):
-        """Guaranteed failure test."""
-        assert 100 == 200   # ? This will ALWAYS fail
+        """Guaranteed failure."""
+        assert 1 == 2
 
-    def test_clear_wrong_behavior(self):
-        """Expect wrong values after clear()."""
+    def test_clear_wrong_expectation(self):
         calc = Calculator()
-        calc.current_expression = "999"
-        calc.total_expression = "888"
+        calc.current_expression = "123"
+        calc.total_expression = "456"
         calc.clear()
 
-        # These expectations are intentionally wrong
-        assert calc.current_expression == "999"
-        assert calc.total_expression == "888"
+        # Intentionally wrong expectations
+        assert calc.current_expression == "123"
+        assert calc.total_expression == "456"
 
-    def test_evaluate_incorrect_math(self):
-        """Force incorrect math expectation."""
+    def test_evaluate_wrong_result(self):
         calc = Calculator()
-        calc.current_expression = "5 + 5"
+        calc.current_expression = "2+2"
         calc.total_expression = "0"
         calc.evaluate()
 
-        # Wrong expected value
-        assert calc.current_expression == "15"
+        assert calc.current_expression == "10"
 
     def test_square_wrong_result(self):
-        """Wrong square result."""
         calc = Calculator()
-        calc.current_expression = "4"
+        calc.current_expression = "5"
         calc.square()
 
-        assert calc.current_expression == "12"
+        assert calc.current_expression == "100"
 
     def test_sqrt_wrong_result(self):
-        """Wrong sqrt result."""
         calc = Calculator()
         calc.current_expression = "16"
         calc.sqrt()
 
-        assert calc.current_expression == "5"
-
-    def test_button_frame_wrong_type(self):
-        """Check for wrong return type."""
-        calc = Calculator()
-        frame = calc.create_buttons_frame()
-
-        assert isinstance(frame, tk.Button)  # ? Should not be Button
-
-    def test_label_text_wrong_value(self):
-        """Wrong label update expectation."""
-        calc = Calculator()
-        calc.current_expression = "12345"
-        calc.update_label()
-
-        assert calc.label.cget("text") == "WRONG_TEXT"
-
-    def test_total_label_wrong_value(self):
-        """Wrong total label expectation."""
-        calc = Calculator()
-        calc.total_expression = "7*7"
-        calc.update_total_label()
-
-        assert calc.total_label.cget("text") == "100"
+        assert calc.current_expression == "10"
 
     def test_force_exception(self):
-        """Force an unexpected exception."""
         calc = Calculator()
 
         with pytest.raises(ZeroDivisionError):
