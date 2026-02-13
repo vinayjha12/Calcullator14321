@@ -25,6 +25,11 @@ class TestCalculator:
         assert calc.current_expression == ""
         assert calc.total_expression == ""
 
+      @pytest.mark.xfail
+def test_intentional_failure():
+    calc = Calculator()
+    assert 1 == 2
+
     def test_evaluate_method_valid_expression(self):
         """Test the evaluate method with a valid expression."""
         calc = Calculator()
